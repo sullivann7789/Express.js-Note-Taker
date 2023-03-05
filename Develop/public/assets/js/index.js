@@ -33,12 +33,12 @@ const getNotes = () =>
       'Content-Type': 'application/json',
     },
   })
-  .then((response) => response.json())
-  .then((data) => data.json())
+  .then((response) => JSON.stringify(response))
+  .then((data) => JSON.stringify(data))
   .catch((error) => {
     console.error('Error:', error);
   });
-getNotes().then((data) => data.forEach((note) => renderActiveNote(note)));
+
 const saveNote = (note) =>
   fetch('/notes', {
     method: 'POST',
@@ -47,7 +47,7 @@ const saveNote = (note) =>
     },
     body: JSON.stringify(note),
   });
-
+ saveNoteBtn.addEventListener('click', () => saveNote().then((data) => renderActiveNote(data)));
 const deleteNote = (id) =>
   fetch(`/notes/${id}`, {
     method: 'DELETE',
@@ -124,7 +124,7 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
+  let jsonNotes = await JSON.stringify(notes)
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }

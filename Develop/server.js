@@ -13,8 +13,8 @@ app.get('/notes', (req, res) =>
 );
 
 app.post('/notes', (req, res) =>
-    res.sendFile()
-)
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+);
 
 app.listen(3001, ()=>
 console.log(`app listening at http://localhost:3001`));
