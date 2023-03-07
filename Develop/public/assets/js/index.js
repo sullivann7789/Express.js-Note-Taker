@@ -25,7 +25,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
-const getNotes = () =>
+let getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
     headers: {
@@ -35,14 +35,15 @@ const getNotes = () =>
   .then((res) => res)
   .then((data) => data);
 
-const saveNote = (note) =>
+let saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-  });
+  })
+  .then(()=> console.log(note));
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -52,40 +53,41 @@ const deleteNote = (id) =>
     },
   });
 
-const renderActiveNote = () => {
+let renderActiveNote = () => {
   hide(saveNoteBtn);
-
-  //if (activeNote.id) {
+  console.log(noteTitle.value);
+  if (noteTitle.value != '' && noteTitle.value != 'undefined') {
     //noteTitle.setAttribute('readonly', true);
     //noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
-  /*} else {
-    noteTitle.removeAttribute('readonly');
-    noteText.removeAttribute('readonly');
+  } else {
+    //noteTitle.removeAttribute('readonly');
+    //noteText.removeAttribute('readonly');
     noteTitle.value = '';
-    noteText.value = '';*/
- // }
+    noteText.value = '';
+  }
 };
 
-const handleNoteSave = () => {
-  const newNote = {
+let handleNoteSave = () => {
+  let newNote = {
     title: noteTitle.value,
     text: noteText.value,
   };
-  saveNote(newNote).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
+  console.log(newNote);
+  saveNote(newNote);
+  getAndRenderNotes();
+  renderActiveNote();
+
 };
 
 // Delete the clicked note
-const handleNoteDelete = (e) => {
+let handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
-  const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  let note = e.target;
+  let noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
 
   if (activeNote.id === noteId) {
     activeNote = {};
@@ -98,15 +100,16 @@ const handleNoteDelete = (e) => {
 };
 
 // Sets the activeNote and displays it
-const handleNoteView = (e) => {
-  e.preventDefault();
+let handleNoteView = (e) => {
+ // e.preventDefault();
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
-const handleNewNoteView = (e) => {
-  activeNote = {};
+let handleNewNoteView = (e) => {
+  //e.preventDefault();
+  //activeNote = {};
   renderActiveNote();
 };
 
@@ -119,7 +122,7 @@ const handleRenderSaveBtn = () => {
 };
 
 // Render the list of note titles
-const renderNoteList = async (notes) => {
+let renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
@@ -128,11 +131,11 @@ const renderNoteList = async (notes) => {
   let noteListItems = [];
 
   // Returns HTML element with or without a delete button
-  const createLi = (text, delBtn = true) => {
-    const liEl = document.createElement('li');
+  let createLi = (text, delBtn = true) => {
+    let liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
 
-    const spanEl = document.createElement('span');
+    let spanEl = document.createElement('span');
     spanEl.classList.add('list-item-title');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
@@ -173,11 +176,11 @@ const renderNoteList = async (notes) => {
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then(renderNoteList);
+let getAndRenderNotes = () => getNotes().then(renderNoteList);
 
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
+  newNoteBtn.addEventListener('click', renderActiveNote);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }

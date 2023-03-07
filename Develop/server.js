@@ -11,9 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 //app.use('/notes', notes);
-app.get('/api/notes', (req, res) =>
-  res.json(db)
-)
+
 app.get('/notes', (req, res) => 
   //getNotes(db),
   //req.json(db),
@@ -50,6 +48,9 @@ let contenttest = "Well Dang!";
   }
   
 }
+)
+app.get('/api/notes', (req, res) =>
+  res.json(db)
 )
 app.post('/notes', (req, res) =>
     
