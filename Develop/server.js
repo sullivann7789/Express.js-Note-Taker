@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-let addTheData;
+var addTheData = [];
 //const { getNotes } = require('./public/assets/js/index')
 const db = require('./db/db.json');
 const fs = require('fs');
@@ -21,30 +21,30 @@ app.get('/notes', (req, res) =>
   
 );
 app.post('/api/notes', (req, res) => {
-  const { title, text } = req.body;
+  var { title, text } = req.body;
   if(req.body) {
-    const addNote = {
+    var addNote = {
       title,
       text,
     };
-  console.log(JSON.stringify(req.body));
-    fs.readFile('./db/db.json', 'utf8', (data, err) => {
+  //console.log(JSON.stringify(req.body));
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
       if(err){
-        console.log(err)
+        console.log(`Should produce error result: ${err}`)
       }else{
-    
-    data.push(addNote);
+    addTheData = JSON.parse(data);
+    addTheData.push(addNote);
     //datareturn = JSON.parse(data);
-    //console.log(data);
-    addTheData = data;
-      }
-  })
-  console.log(addTheData);
+    console.log(`this is the data output: ${JSON.stringify(addTheData)}`);
+
+  console.log("outside the function scope: " + JSON.stringify(addTheData));
 let contenttest = "Well Dang!";
-  fs.writeFile('./db/db.json', `[${JSON.stringify(req.body)}]`, (err) => {
-    console.log(err);
+  fs.writeFile('./db/db.json', `${JSON.stringify(addTheData)}`, (err) => {
+    console.log(`the err code says: ${err}`);
   });
   res.json(db);
+}
+})
   } else {
     console.log(`error! res: ${res} `);
   }
