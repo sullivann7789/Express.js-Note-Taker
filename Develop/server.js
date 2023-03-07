@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+let addTheData;
 //const { getNotes } = require('./public/assets/js/index')
 const db = require('./db/db.json');
 const fs = require('fs');
@@ -26,9 +27,24 @@ app.post('/api/notes', (req, res) => {
       title,
       text,
     };
-  
-  fs.writeFile(db, JSON.stringify(addNote));
-  res.json(db)
+  console.log(JSON.stringify(req.body));
+    fs.readFile('./db/db.json', 'utf8', (data, err) => {
+      if(err){
+        console.log(err)
+      }else{
+    
+    data.push(addNote);
+    //datareturn = JSON.parse(data);
+    //console.log(data);
+    addTheData = data;
+      }
+  })
+  console.log(addTheData);
+let contenttest = "Well Dang!";
+  fs.writeFile('./db/db.json', `[${JSON.stringify(req.body)}]`, (err) => {
+    console.log(err);
+  });
+  res.json(db);
   } else {
     console.log(`error! res: ${res} `);
   }
