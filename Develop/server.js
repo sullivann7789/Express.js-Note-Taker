@@ -19,9 +19,25 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
   
 );
-
+app.post('/api/notes', (req, res) => {
+  const { title, text } = req.body;
+  if(req.body) {
+    const addNote = {
+      title,
+      text,
+    };
+  
+  fs.writeFile(db, JSON.stringify(addNote));
+  res.json(db)
+  } else {
+    console.log(`error! res: ${res} `);
+  }
+  
+}
+)
 app.post('/notes', (req, res) =>
-    res.json(db)
+    
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
 app.listen(3001, ()=>
