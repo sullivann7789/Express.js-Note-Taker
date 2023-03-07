@@ -55,19 +55,27 @@ const deleteNote = (id) =>
 
 let renderActiveNote = () => {
   hide(saveNoteBtn);
-  console.log(noteTitle.value);
-  if (noteTitle.value != '' && noteTitle.value != 'undefined') {
-    //noteTitle.setAttribute('readonly', true);
-    //noteText.setAttribute('readonly', true);
+  console.log(activeNote.title);
+  if (/*noteTitle.value != '' && noteTitle.value != 'undefined'*/activeNote.title/* != '' || activeNote != 'undefined'*/) {
+    noteTitle.setAttribute('readonly', true);
+    noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
-  } else {
-    //noteTitle.removeAttribute('readonly');
-    //noteText.removeAttribute('readonly');
+  } else if (activeNote.title = '') {
+    noteTitle.removeAttribute('readonly');
+    noteText.removeAttribute('readonly');
     noteTitle.value = '';
     noteText.value = '';
   }
 };
+
+let newNotefun = (event) => {
+  event.preventDefault();
+  noteTitle.removeAttribute('readonly');
+  noteText.removeAttribute('readonly');
+  noteTitle.value = '';
+  noteText.value = '';
+}
 
 let handleNoteSave = () => {
   let newNote = {
@@ -101,15 +109,15 @@ let handleNoteDelete = (e) => {
 
 // Sets the activeNote and displays it
 let handleNoteView = (e) => {
- // e.preventDefault();
+  e.preventDefault();
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 let handleNewNoteView = (e) => {
-  //e.preventDefault();
-  //activeNote = {};
+  e.preventDefault();
+  activeNote = {};
   renderActiveNote();
 };
 
@@ -180,7 +188,7 @@ let getAndRenderNotes = () => getNotes().then(renderNoteList);
 
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', renderActiveNote);
+  newNoteBtn.addEventListener('click', newNotefun);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }
