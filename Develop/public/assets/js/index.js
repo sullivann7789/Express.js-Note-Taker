@@ -49,7 +49,40 @@ let saveNote = (note) =>
     body: JSON.stringify(note),
   })
   .then(()=> console.log(note))
-  .then(()=> note);
+  .then(()=> {
+    let createLi = (text, delBtn = true) => {
+      let liEl = document.createElement('li');
+      liEl.classList.add('list-group-item');
+  
+      let spanEl = document.createElement('span');
+      spanEl.classList.add('list-item-title');
+      spanEl.innerText = text;
+      spanEl.addEventListener('click', handleNoteView);
+  //important connection to note list
+      liEl.append(spanEl);
+  
+      if (delBtn) {
+        const delBtnEl = document.createElement('i');
+        delBtnEl.classList.add(
+          'fas',
+          'fa-trash-alt',
+          'float-right',
+          'text-danger',
+          'delete-note'
+        );
+        delBtnEl.addEventListener('click', handleNoteDelete);
+  
+        liEl.append(delBtnEl);
+      }
+  
+      return liEl;
+    };
+    let li = createLi(note.title);
+    li.dataset.note = JSON.stringify(note);
+
+    noteList[0].append(li);
+
+  });
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -90,7 +123,6 @@ let handleNoteSave = () => {
   };
   console.log(newNote);
   saveNote(newNote);
-  getAndRenderNotes();
 
 };
 
