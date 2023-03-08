@@ -36,7 +36,9 @@ let getNotes = () =>
     },
   })
   .then((res) => res)
-  .then((data) => data);
+  .then((data) => {
+     return data.json();
+  });
 
 let saveNote = (note) =>
   fetch('/api/notes', {
@@ -46,7 +48,8 @@ let saveNote = (note) =>
     },
     body: JSON.stringify(note),
   })
-  .then(()=> console.log(note));
+  .then(()=> console.log(note))
+  .then(()=> note);
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -88,7 +91,6 @@ let handleNoteSave = () => {
   console.log(newNote);
   saveNote(newNote);
   getAndRenderNotes();
-  renderActiveNote();
 
 };
 
@@ -134,7 +136,7 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 let renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
+  let jsonNotes = await notes;
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }

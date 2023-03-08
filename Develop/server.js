@@ -39,8 +39,9 @@ app.post('/api/notes', (req, res) => {
 let contenttest = "Well Dang!";
   fs.writeFile('./db/db.json', `${JSON.stringify(addTheData)}`, (err) => {
     console.log(`the err code says: ${err}`);
+    res.json(db)
   });
-  res.json(db);
+  
 }
 })
   } else {
