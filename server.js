@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 var addTheData = [];
 
-const PORT = proc.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 //const { getNotes } = require('./public/assets/js/index')
 const db = require('./db/db.json');
 const fs = require('fs');
