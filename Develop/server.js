@@ -57,6 +57,9 @@ app.post('/notes', (req, res) =>
     
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
-
+app.delete(`/api/notes`, (req, res) =>
+console.log(req)
+  //fs.writeFile('./db/db.json', )
+);
 app.listen(3001, ()=>
 console.log(`app listening at http://localhost:3001`));
