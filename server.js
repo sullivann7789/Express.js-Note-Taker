@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 var addTheData = [];
+
+const PORT = proc.env.PORT || 3001;
 //const { getNotes } = require('./public/assets/js/index')
 const db = require('./db/db.json');
 const fs = require('fs');
@@ -61,5 +63,5 @@ app.delete(`/api/notes`, (req, res) =>
 console.log(req)
   //fs.writeFile('./db/db.json', )
 );
-app.listen(3001, ()=>
+app.listen(PORT, ()=>
 console.log(`app listening at http://localhost:3001`));
