@@ -1,7 +1,10 @@
 
 # Express.js Note Taker App
 
+![Screenshot 2023-03-09 at 22-29-25 Note Taker](https://user-images.githubusercontent.com/119015927/224240615-36e08564-d557-46c1-b754-8ff702d1e87a.png)
+
 # Table of Contents
+
 1. [Description](#description)
 2. [Installation](#installation)
 3. [Usage](#usage)
