@@ -21,9 +21,10 @@ app.get('/notes', (req, res) =>
   
 );
 app.post('/api/notes', (req, res) => {
-  var { title, text } = req.body;
+  var { id, title, text } = req.body;
   if(req.body) {
     var addNote = {
+      id,
       title,
       text,
     };
@@ -34,12 +35,10 @@ app.post('/api/notes', (req, res) => {
       }else{
     addTheData = JSON.parse(data);
     addTheData.push(addNote);
-    //datareturn = JSON.parse(data);
     console.log(`this is the data output: ${JSON.stringify(addTheData)}`);
 
-  console.log("outside the function scope: " + JSON.stringify(addTheData));
-let contenttest = "Well Dang!";
-  fs.writeFile('./db/db.json', `${JSON.stringify(addTheData)}`, (err) => {
+    console.log("outside the function scope: " + JSON.stringify(addTheData));
+    fs.writeFile('./db/db.json', `${JSON.stringify(addTheData)}`, (err) => {
     console.log(`the err code says: ${err}`);
     res.json(db)
   });

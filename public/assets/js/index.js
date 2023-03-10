@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+let id;
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -10,6 +11,9 @@ if (window.location.pathname === '/notes') {
   saveNoteBtn = document.querySelector('.save-note');
   newNoteBtn = document.querySelector('.new-note');
   noteList = document.querySelectorAll('.list-container .list-group');
+  noteTitle.value = '';
+  noteText.value = '';
+  id = 0;
 }
 
 // Show an element
@@ -25,8 +29,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
-noteTitle.value = '';
-noteText.value = '';
+
 
 let getNotes = () =>
   fetch('/api/notes', {
@@ -118,6 +121,7 @@ let newNotefun = (event) => {
 
 let handleNoteSave = () => {
   let newNote = {
+    id: id++,
     title: noteTitle.value,
     text: noteText.value,
   };
